@@ -10,6 +10,8 @@ URxvt.keysym.C-minus: font-size:decrease
 URxvt.keysym.C-equal: font-size:increase
 
 ! Base16 Monokai
+! Scheme: Wimer Hazenberg (http://www.monokai.nl)
+
 #define base00 #272822
 #define base01 #383830
 #define base02 #49483e
@@ -41,10 +43,19 @@ URxvt.keysym.C-equal: font-size:increase
 *.color7:       base05
 
 *.color8:       base03
-*.color9:       base09
-*.color10:      base01
-*.color11:      base02
-*.color12:      base04
-*.color13:      base06
-*.color14:      base0F
+*.color9:       base08
+*.color10:      base0B
+*.color11:      base0A
+*.color12:      base0D
+*.color13:      base0E
+*.color14:      base0C
 *.color15:      base07
+
+! Note: colors beyond 15 might not be loaded (e.g., xterm, urxvt),
+! use 'shell' template to set these if necessary
+*.color16:      base09
+*.color17:      base0F
+*.color18:      base01
+*.color19:      base02
+*.color20:      base04
+*.color21:      base06
