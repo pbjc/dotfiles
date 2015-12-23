@@ -119,7 +119,6 @@ function cdd {
   if [ -n "$1" ]; then
     cd $1
   fi
-
 }
 
 # Base16 Shell
