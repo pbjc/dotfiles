@@ -23,10 +23,14 @@ set nocompatible
 filetype plugin indent on
 syntax enable
 set background=dark
-set t_Co=256
-let base16colorspace=256
-colorscheme base16-monokai
 set noshowmode
+set t_Co=256
+colorscheme elflord
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+  colorscheme base16-monokai
+endif
 
 set incsearch
 set hlsearch
