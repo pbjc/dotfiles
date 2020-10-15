@@ -1,1 +1,2 @@
-alias ls="ls --color=auto"
+alias ls="ls -G"
+alias clip="nc localhost 8377"

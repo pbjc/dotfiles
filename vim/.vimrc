@@ -1,8 +1,7 @@
 call plug#begin('~/.vim/plugged')
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
-Plug 'tpope/vim-commentary'
 Plug 'alxyang/a.vim'
 Plug 'wincent/terminus'
 Plug 'xolox/vim-misc'
@@ -12,16 +11,27 @@ Plug 'wincent/vim-clipper'
 Plug 'chriskempson/base16-vim'
 Plug 'itchyny/lightline.vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
+" Having issues with fugitive on catalina
+" Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-eunuch'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'vimwiki/vimwiki'
+Plug 'majutsushi/tagbar'
+Plug 'hashivim/vim-terraform'
+Plug 'vim-python/python-syntax'
+Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'maxmellon/vim-jsx-pretty'
 call plug#end()
 
 set nocompatible
 
 filetype plugin indent on
 syntax enable
+
 set background=dark
 set noshowmode
 set t_Co=256
@@ -59,16 +69,41 @@ set softtabstop=2
 set rtp+=/usr/local/opt/fzf
 nnoremap <c-p> :FZF<cr>
 
+" Equalize window sizes when terminal is resized
 autocmd VimResized * wincmd =
 
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
+if has("clipboard")
+  set clipboard=unnamed " copy to the system clipboard
+
+  if has("unnamedplus") " X11 support
+    set clipboard+=unnamedplus
+  endif
 endif
 
 " Save last cursor position in file
 if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 endif
+
+nnoremap <leader>t :TagbarToggle<CR>
+
+let g:terraform_align=1
+
+let g:python_highlight_indent_errors=0
+let g:python_highlight_space_errors=0
+let g:python_highlight_operators=0
+let g:python_highlight_class_vars=0
+let g:python_highlight_all=1
+
+" Distraction-free writing
+command! ProseMode call ProseMode()
+nmap \p :ProseMode<CR>
+function! ProseMode()
+  call goyo#execute(0, [])
+  set spell noci nosi noai nolist noshowmode noshowcmd
+  set complete+=s
+  set bg=light
+endfunction
 
 " Highlight all instances of word under cursor, when idle.
 " Useful when studying strange source code.
@@ -93,27 +128,27 @@ function! AutoHighlightToggle()
   endif
 endfunction
 
-" Wrap words, but only break lines when the enter key is pressed
-nnoremap <leader>w :call VisualWordWrapToggle()<CR>
-function! VisualWordWrapToggle()
-  let @/ = ''
-  if exists('#visual_word_wrap')
-    au! visual_word_wrap
-    augroup! visual_word_wrap
-      echo 'Visual word wrap: off'
-      return 0
-    :set nolinebreak
-  else
-    augroup visual_word_wrap
-    augroup end
-    :set linebreak
-    :set wrap
-    :set nolist
-    :set wrapmargin=0
-    echo 'Visual word wrap: on'
-    return 1
-  endif
-endfunction
+" " Wrap words, but only break lines when the enter key is pressed
+" nnoremap <leader>w :call VisualWordWrapToggle()<CR>
+" function! VisualWordWrapToggle()
+"   let @/ = ''
+"   if exists('#visual_word_wrap')
+"     au! visual_word_wrap
+"     augroup! visual_word_wrap
+"       echo 'Visual word wrap: off'
+"       return 0
+"     :set nolinebreak
+"   else
+"     augroup visual_word_wrap
+"     augroup end
+"     :set linebreak
+"     :set wrap
+"     :set nolist
+"     :set wrapmargin=0
+"     echo 'Visual word wrap: on'
+"     return 1
+"   endif
+" endfunction
 
 " Distraction-free writing
 command! ProseMode call ProseMode()
