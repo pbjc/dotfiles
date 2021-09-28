@@ -14,6 +14,9 @@ shopt -s histappend
 HISTSIZE=10000
 HISTFILESIZE=10000
 
+# update history after each command
+PROMPT_COMMAND='history -a'
+
 # update values of LINES and COLUMNS after each command
 shopt -s checkwinsize
 
@@ -68,4 +71,3 @@ BASE16_SHELL="$HOME/.config/base16-shell/"
         eval "$("$BASE16_SHELL/profile_helper.sh")"
 
 export BASH_SILENCE_DEPRECATION_WARNING=1
-alias gitlab='open $(git config remote.origin.url | sed "s/git@\(.*\):\(.*\).git/https:\/\/\1\/\2/")/tree/$(git symbolic-ref --quiet --short HEAD )/$(git rev-parse --show-prefix)'
